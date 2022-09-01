@@ -5,6 +5,7 @@ const path = require('path')
 const http = require("http");
 const server = http.createServer(app);
 var nodemailer = require('nodemailer');
+const e = require('express');
 
 
 app.use(express.json())
@@ -234,21 +235,92 @@ const board =
 //The Set object lets you store unique values of any type, whether primitive values or object references.
 //The size accessor property returns the number of (unique) elements in a Set object.
 
+//const string = '102.95.24'
+
+const regex1 = /[1-9]/g;
+//console.log(board[0].join('').match(regex1))
 
 function containsDuplicates(arr) {
     const filteredArr = arr.filter(item => item !== ".")
-    return !(new Set(filteredArr).size !== filteredArr.length);
+    //console.log('filteredArr', filteredArr)
+    return (new Set(filteredArr).size !== filteredArr.length);
 }
 
 //console.log(containsDuplicates(board[0]))
+let column1 =[];
+let column2 =[];
+let column3 =[];
+let column4 =[];
+let column5 =[];
+let column6 =[];
+let column7 =[];
+let column8 =[];
+let column9 =[];
+let columnsArr =[];
 
+let cube1 = [];
+let cube2 = [];
+let cube3 = [];
+let cube4 = [];
+let cube5 = [];
+let cube6 = [];
+let cube7 = [];
+let cube8 = [];
+let cube9 = [];
+let cubeArr = [];
 
-for (let i=0; i < board.length; i++) { //name need a to use a regex below 
-    if(board[i].includes("1","2","3","4","5","6","7","8","9")  ) {
-        console.log(i, 'no duplicates')
-        
-        
+for (let i=0; i < board.length; i++) { 
+
+    column1.push(board[i][(board[i].length)-(board[i].length)])
+    column2.push(board[i][(board[i].length)-(board[i].length-1)])
+    column3.push(board[i][(board[i].length)-(board[i].length-2)])
+    column4.push(board[i][(board[i].length)-(board[i].length-3)])
+    column5.push(board[i][(board[i].length)-(board[i].length-4)])
+    column6.push(board[i][(board[i].length)-(board[i].length-5)])
+    column7.push(board[i][(board[i].length)-(board[i].length-6)])
+    column8.push(board[i][(board[i].length)-(board[i].length-7)])
+    column9.push(board[i][(board[i].length)-(board[i].length-8)])
+    columnsArr = [column1, column2, column3, column4, column5, column6, column7, column8, column9]
+
+    if(board[i].join('').match(regex1) && !containsDuplicates(board[i])) {
+        console.log(i, 'horizontal row validated!') 
+        ///console.log(columnsArr[i])
+        //for (let j=0; j< columnsArr.length; j++) {
+          //  console.log(columnsArr[j])
+            // if (columnsArr[j].join('').match(regex1) && !containsDuplicates(columnsArr[j])) {
+            //     console.log('column verified!')
+            // }
+            // else {
+            //     console.log('column not valid!')
+            // }
+        //}  
+    } 
+    else {
+        console.log(i, 'horizontal row is not valid')
+        //for (let j=0; j < columnsArr.length; j++) {
+            //console.log(columnsArr[j])
+            // if (columnsArr[j].join('').match(regex1) && !containsDuplicates(columnsArr[j])) {
+            //     console.log('column verified!')
+            // }
+            // else {
+            //     console.log('column not valid!')
+            // }
+        //}  
+    }
+
+    
+}
+
+for (let j=0; j < columnsArr.length; j++) {
+    if(columnsArr[j].join('').match(regex1) && !containsDuplicates(columnsArr[j])) {
+        console.log(j, 'column validated!') 
+    }
+    else {
+        console.log('column invalid')
     }
 }
 
+
+//cube1.push(board[i][i])
+  //  console.log('cube1', cube1)
 
