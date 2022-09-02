@@ -235,18 +235,14 @@ const board =
 //The Set object lets you store unique values of any type, whether primitive values or object references.
 //The size accessor property returns the number of (unique) elements in a Set object.
 
-//const string = '102.95.24'
 
 const regex1 = /[1-9]/g;
-//console.log(board[0].join('').match(regex1))
 
 function containsDuplicates(arr) {
     const filteredArr = arr.filter(item => item !== ".")
-    //console.log('filteredArr', filteredArr)
     return (new Set(filteredArr).size !== filteredArr.length);
 }
 
-//console.log(containsDuplicates(board[0]))
 let column1 =[];
 let column2 =[];
 let column3 =[];
@@ -257,17 +253,6 @@ let column7 =[];
 let column8 =[];
 let column9 =[];
 let columnsArr =[];
-
-let cube1 = [];
-let cube2 = [];
-let cube3 = [];
-let cube4 = [];
-let cube5 = [];
-let cube6 = [];
-let cube7 = [];
-let cube8 = [];
-let cube9 = [];
-let cubeArr = [];
 
 for (let i=0; i < board.length; i++) { 
 
@@ -282,45 +267,75 @@ for (let i=0; i < board.length; i++) {
     column9.push(board[i][(board[i].length)-(board[i].length-8)])
     columnsArr = [column1, column2, column3, column4, column5, column6, column7, column8, column9]
 
+    //1 check each row. if array only holds integers 1-9without numeric repetition return true
     if(board[i].join('').match(regex1) && !containsDuplicates(board[i])) {
-        console.log(i, 'horizontal row validated!') 
-        ///console.log(columnsArr[i])
-        //for (let j=0; j< columnsArr.length; j++) {
-          //  console.log(columnsArr[j])
-            // if (columnsArr[j].join('').match(regex1) && !containsDuplicates(columnsArr[j])) {
-            //     console.log('column verified!')
-            // }
-            // else {
-            //     console.log('column not valid!')
-            // }
-        //}  
+        console.log(i, 'horizontal row validated, true!') 
     } 
     else {
-        console.log(i, 'horizontal row is not valid')
-        //for (let j=0; j < columnsArr.length; j++) {
-            //console.log(columnsArr[j])
-            // if (columnsArr[j].join('').match(regex1) && !containsDuplicates(columnsArr[j])) {
-            //     console.log('column verified!')
-            // }
-            // else {
-            //     console.log('column not valid!')
-            // }
-        //}  
-    }
-
-    
+        console.log(i, 'horizontal row is not valid, false')
+    }    
 }
-
+//2 check each column. create an array using board[i][j].if it only holds integers 1-9without numeric repetition return true
 for (let j=0; j < columnsArr.length; j++) {
     if(columnsArr[j].join('').match(regex1) && !containsDuplicates(columnsArr[j])) {
-        console.log(j, 'column validated!') 
+        console.log(j, 'column validated! true') 
     }
     else {
-        console.log('column invalid')
+        console.log('column invalid, false')
     }
 }
 
+//3 check each 9x9 square. create array by taking chunks of three , of three consecutive arrays at a time.  if it only holds integers 1-9without numeric repetition return true
+let cube1 = [];
+let cube2 = [];
+let cube3 = [];
+let cube4 = [];
+let cube5 = [];
+let cube6 = [];
+let cube7 = [];
+let cube8 = [];
+let cube9 = [];
+const boardFirst3Rows = board.slice(0,3);
+const boardMid3Rows = board.slice(3, 6);
+const boardLast3Rows = board.slice(6, 9);
 
-//cube1.push(board[i][i])
-  //  console.log('cube1', cube1)
+for (let i=0; i<boardFirst3Rows.length; i++) {
+    cube1.push(boardFirst3Rows[i].slice(0, 3))
+    cube2.push(boardFirst3Rows[i].slice(3,6))
+    cube3.push(boardFirst3Rows[i].slice(6,9))
+}
+
+for (let i=0; i<boardMid3Rows.length; i++) {
+    cube4.push(boardMid3Rows[i].slice(0, 3))
+    cube5.push(boardMid3Rows[i].slice(3,6))
+    cube6.push(boardMid3Rows[i].slice(6,9))
+}
+
+for (let i=0; i<boardLast3Rows.length; i++) {
+    cube7.push(boardLast3Rows[i].slice(0, 3))
+    cube8.push(boardLast3Rows[i].slice(3,6))
+    cube9.push(boardLast3Rows[i].slice(6,9))
+}
+
+    cube1 = [].concat(cube1[0],cube1[1],cube1[2])
+    cube2 = [].concat(cube2[0],cube2[1],cube2[2])
+    cube3 = [].concat(cube3[0],cube3[1],cube3[2])
+    cube4 = [].concat(cube4[0],cube4[1],cube4[2])
+    cube5 = [].concat(cube5[0],cube5[1],cube5[2])
+    cube6 = [].concat(cube6[0],cube6[1],cube6[2])
+    cube7 = [].concat(cube7[0],cube7[1],cube7[2])
+    cube8 = [].concat(cube8[0],cube8[1],cube8[2])
+    cube9 = [].concat(cube9[0],cube9[1],cube9[2])
+    const newCubeArr = [cube1, cube2, cube3, cube4, cube5, cube6, cube7, cube8, cube9]
+
+for (let i=0; i<newCubeArr.length; i++) {
+    if(newCubeArr[i].join('').match(regex1) && !containsDuplicates(newCubeArr[i])) {
+        console.log (i, "cube validated! true!")
+    } else {
+        console.log (i, "cube invalid. false.")
+    }
+}
+//merge arrays within each cube array then run the check
+//// More readable form of concat()
+//let combinedNums = [].concat(nums1, nums2, nums3);
 
