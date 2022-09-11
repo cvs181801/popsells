@@ -339,3 +339,74 @@ for (let i=0; i<newCubeArr.length; i++) {
 //// More readable form of concat()
 //let combinedNums = [].concat(nums1, nums2, nums3);
 
+
+// You are trying to choose a new hobby, and part of your decision is based on how much each hobby 
+//would cost to get started. So, you've brainstormed a list of the things you would need to buy for each one, 
+//and the cost of each item. But, they're all mixed together, and what you really need is the total cost added 
+//up for each hobby. Write a function that accepts a nested array containing hobby name, item name, and item cost, 
+//and returns an object containing the total cost for each hobby. Here's some sample input and output.
+
+// Sample input:
+const hobbyArray= [
+    ["knitting", "needles", 10],
+    ["lock picking", "picks", 25],
+    ["knitting", "yarn", 30],
+    ["DJing", "two turntables", 500],
+    ["knitting", "sock pattern", 3],
+    ["DJing", "a microphone", 35]
+  ]
+  
+  const hobbyArray2 = [
+      ["coding", "computer", 2056],
+      ["silicone pouring", "silicone", 450],
+      ["coding", "classes", 250],
+      ["cooking", "ingredients", 50],
+      ["cooking", "knives", 75],
+      ["silicone pouring", "PPE", 27]
+  ]
+  
+  // Sample output:
+  // {
+  //   "knitting": 43,
+  //   "lock picking": 25,
+  //   "DJing": 535,
+  // }
+  
+  
+  
+  
+  let newArr = [];
+  let acc = 0;
+  let obj = {};
+  let newObj = {};
+  
+  function hobbyDecider(array) {
+      const reducedArr = hobbyReducer(array);
+      for(i=0; i <reducedArr.length; i++) {
+          //console.log(acc)
+          if(acc>0){
+              obj[reducedArr[i]] = acc; 
+          }
+          acc = 0;
+          for(j=0; j<array.length; j++){
+              //console.log(array[j], array[j].indexOf(reducedArr[i]));
+               if(array[j].indexOf(reducedArr[i]) >= 0) {          
+                      acc += array[j][2]
+                }
+          }
+          obj[reducedArr[i]] = acc; 
+      } 
+      //console.log(obj)
+      return obj;
+  }
+  
+  
+  function hobbyReducer(array, index) {
+     array.forEach(item=>newArr.push(item[0])) 
+     return [...new Set(newArr)]
+  }
+  
+  
+  console.log(hobbyDecider(hobbyArray2))
+  
+      
