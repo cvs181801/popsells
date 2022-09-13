@@ -492,52 +492,94 @@ const regexArray = [regex4, regex9, regex40, regex90, regex400, regex900]
 const intArray = [4,9,40,90,400,900]
 
 function toRoman(string) {
-    //if (1 <= string.length <= 15 && string.includes('I', 'V', 'X', 'L', 'C', 'D', 'M')) {
-        //console.log('good!')
-        for(let i=0; i<string.length; i++){
-            if(string[i] ==="I" && string[i+1]==="V"){
-                acc +=4;
-                i++;
-            }else if (string[i] ==="I" && string[i+1]==="X"){
-                acc+=9;
-                i++;
-            }else if (string[i] ==="X" && string[i+1]==="L"){
-                acc+=40;
-                i++;
-            }else if (string[i] ==="X" && string[i+1]==="C"){
-                acc+=90;
-                i++;
-            }else if (string[i] ==="C" && string[i+1]==="D"){
-                acc+=400;
-                i++;
-            }else if (string[i] ==="C" && string[i+1]==="M"){
-                acc+=900;
-                i++;
-            } else {
-                accumulator += romanHash[string[i]]
-            }
-            return accumulator;
-        } 
+
+    if (1 <= string.length <= 15 && string.includes('I', 'V', 'X', 'L', 'C', 'D', 'M')) {
+        console.log('good!')
+
+        toRoman4(string)
+        
+
+
+        // for(let i=0; i<string.length; i++){
+        //     if(string[i] ==="I" && string[i+1]==="V"){
+        //         acc +=4;
+        //         i++;
+        //     }else if (string[i] ==="I" && string[i+1]==="X"){
+        //         acc+=9;
+        //         i++;
+        //     }else if (string[i] ==="X" && string[i+1]==="L"){
+        //         acc+=40;
+        //         i++;
+        //     }else if (string[i] ==="X" && string[i+1]==="C"){
+        //         acc+=90;
+        //         i++;
+        //     }else if (string[i] ==="C" && string[i+1]==="D"){
+        //         acc+=400;
+        //         i++;
+        //     }else if (string[i] ==="C" && string[i+1]==="M"){
+        //         acc+=900;
+        //         i++;
+        //     } else {
+        //         accumulator += romanHash[string[i]]
+        //     }
+        //     return accumulator;
+        // } 
        
-    //} else {
-        //console.log("I'm sorry, there are too many characters!  Please try again with less characters. The only characters allowed are capital 'I', 'V', 'X', 'L', 'C', 'D', and 'M'.")
-   // }
+    } else {
+        console.log("I'm sorry, there are too many characters!  Please try again with less characters. The only characters allowed are capital 'I', 'V', 'X', 'L', 'C', 'D', and 'M'.")
+    }
     //console.log(accumulator)
     
 }
 
-function toRomanSubtraction(string, regexArr, intArr) {
-   //forEach(regex, index, array2=>string.replace(regexArray,intArray))
-   regexArr.forEach((regex, index, array)=>console.log(string.replace(regex, intArray[index])))
-    //merge all those strings into one
-   //return string
+// function toRomanSubtraction(string, regexArr, intArr) {
+//    //forEach(regex, index, array2=>string.replace(regexArray,intArray))
+//    regexArr.forEach((regex, index, array)=>console.log(string.replace(regex, intArray[index])))
+//     //merge all those strings into one
+//    //return string
+// }
+
+function toRoman4(string){ //***I think the best way would be to push each result to an array of numbers, then add the numbers in the final function
+   const string4 =  string.replace(regex4,4);//also, instead of a long string of functions, may be able to put all the values into the roman hash and just use that
+   //console.log(string4)
+   toRoman9(string4)
 }
 
-console.log(toRoman("IX"))
+function toRoman9(string) {
+    const string9 =  string.replace(regex9,9);
+    //console.log(string9)
+   toRoman40(string9)
+}
+
+function toRoman40(string) {
+    const string40 =  string.replace(regex40,40);
+   // console.log(string40)
+   toRoman90(string40)
+}
+
+function toRoman90(string) {
+    const string90 =  string.replace(regex90,90);
+    //console.log(string90)
+   toRoman400(string90)
+}
+
+function toRoman400(string) {
+    const string400 =  string.replace(regex400,400);
+    //console.log(string400)
+   toRoman900(string400)
+}
+
+function toRoman900(string) {
+    console.log(string)
+    const string900 =  string.replace(regex900,900);
+    //console.log(string900)
+   return string900
+}
+
 //toRomanSubtraction("IVIX",regexArray,intArray)
 
 //console.log("MCMXCIV".replaceAll(regexAll, 'T'))
-
+//1598 : MDXCVIII//
 
 //alternatively, working way through the string one letter at a time  
 //if V follows I, IV, return 4
@@ -550,3 +592,4 @@ console.log(toRoman("IX"))
 
 //otherwise, add 
 
+toRoman("XCIV")
