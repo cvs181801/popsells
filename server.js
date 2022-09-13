@@ -269,19 +269,19 @@ for (let i=0; i < board.length; i++) {
 
     //1 check each row. if array only holds integers 1-9without numeric repetition return true
     if(board[i].join('').match(regex1) && !containsDuplicates(board[i])) {
-        console.log(i, 'horizontal row validated, true!') 
+      //  console.log(i, 'horizontal row validated, true!') 
     } 
     else {
-        console.log(i, 'horizontal row is not valid, false')
+       // console.log(i, 'horizontal row is not valid, false')
     }    
 }
 //2 check each column. create an array using board[i][j].if it only holds integers 1-9without numeric repetition return true
 for (let j=0; j < columnsArr.length; j++) {
     if(columnsArr[j].join('').match(regex1) && !containsDuplicates(columnsArr[j])) {
-        console.log(j, 'column validated! true') 
+       // console.log(j, 'column validated! true') 
     }
     else {
-        console.log('column invalid, false')
+       // console.log('column invalid, false')
     }
 }
 
@@ -330,9 +330,9 @@ for (let i=0; i<boardLast3Rows.length; i++) {
 
 for (let i=0; i<newCubeArr.length; i++) {
     if(newCubeArr[i].join('').match(regex1) && !containsDuplicates(newCubeArr[i])) {
-        console.log (i, "cube validated! true!")
+       // console.log (i, "cube validated! true!")
     } else {
-        console.log (i, "cube invalid. false.")
+        //console.log (i, "cube invalid. false.")
     }
 }
 //merge arrays within each cube array then run the check
@@ -340,6 +340,8 @@ for (let i=0; i<newCubeArr.length; i++) {
 //let combinedNums = [].concat(nums1, nums2, nums3);
 
 
+///
+//HOBBY DECIDER
 // You are trying to choose a new hobby, and part of your decision is based on how much each hobby 
 //would cost to get started. So, you've brainstormed a list of the things you would need to buy for each one, 
 //and the cost of each item. But, they're all mixed together, and what you really need is the total cost added 
@@ -371,8 +373,6 @@ const hobbyArray= [
   //   "lock picking": 25,
   //   "DJing": 535,
   // }
-  
-  
   
   
   let newArr = [];
@@ -407,6 +407,146 @@ const hobbyArray= [
   }
   
   
-  console.log(hobbyDecider(hobbyArray2))
+  //console.log(hobbyDecider(hobbyArray2))
+
+  ////
   
-      
+//ROMAN TO INTEGER
+//Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
+
+// Symbol       Value
+// I             1
+// V             5
+// X             10
+// L             50
+// C             100
+// D             500
+// M             1000
+// For example, 2 is written as II in Roman numeral, just two ones added together. 12 is written as XII, which is simply X + II. The number 27 is written as XXVII, which is XX + V + II.
+
+//Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not IIII. 
+//Instead, the number four is written as IV. 
+//Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as IX. 
+//There are six instances where subtraction is used:
+
+// I can be placed before V (5) and X (10) to make 4 and 9. 
+// X can be placed before L (50) and C (100) to make 40 and 90. 
+// C can be placed before D (500) and M (1000) to make 400 and 900.
+// Given a roman numeral, convert it to an integer.
+
+// Example 1:
+
+// Input: s = "III"
+// Output: 3
+// Explanation: III = 3.
+// Example 2:
+
+// Input: s = "LVIII"
+// Output: 58
+// Explanation: L = 50, V= 5, III = 3.
+// Example 3:
+
+// Input: s = "MCMXCIV"
+// Output: 1994
+// Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
+ 
+
+// Constraints:
+
+// 1 <= s.length <= 15
+// s contains only the characters ('I', 'V', 'X', 'L', 'C', 'D', 'M').
+// It is guaranteed that s is a valid roman numeral in the range [1, 3999].
+
+//take in a string
+//parse out the pieces of that string that make up the building blocks of the roman.  for each regex, check the string again and replace accordingly.
+//translate to numbers/integers
+//math
+
+//The symbols V, L, D are never repeated in a Roman number. 
+//In the Roman numbering system, symbols cannot be repeated more than three times in a row.
+
+// I can be placed before V (5) and X (10) to make 4 and 9. 
+// X can be placed before L (50) and C (100) to make 40 and 90. 
+// C can be placed before D (500) and M (1000) to make 400 and 900.
+
+let accumulator = 0;
+
+const romanHash = {
+    I: 1,
+    V: 5,
+    X: 10,
+    L: 50,
+    C: 100,
+    D: 500,
+    M: 1000,
+  };
+
+const regex4 = /IV/i;
+const regex9 = /IX/i;
+const regex40 = /XL/i;
+const regex90 = /XC/i;
+const regex400 = /CD/i;
+const regex900 = /CM/i;
+const regexAll = /[IV][IX][XL][XC][CD][CM]/g;
+const regexArray = [regex4, regex9, regex40, regex90, regex400, regex900]
+const intArray = [4,9,40,90,400,900]
+
+function toRoman(string) {
+    //if (1 <= string.length <= 15 && string.includes('I', 'V', 'X', 'L', 'C', 'D', 'M')) {
+        //console.log('good!')
+        for(let i=0; i<string.length; i++){
+            if(string[i] ==="I" && string[i+1]==="V"){
+                acc +=4;
+                i++;
+            }else if (string[i] ==="I" && string[i+1]==="X"){
+                acc+=9;
+                i++;
+            }else if (string[i] ==="X" && string[i+1]==="L"){
+                acc+=40;
+                i++;
+            }else if (string[i] ==="X" && string[i+1]==="C"){
+                acc+=90;
+                i++;
+            }else if (string[i] ==="C" && string[i+1]==="D"){
+                acc+=400;
+                i++;
+            }else if (string[i] ==="C" && string[i+1]==="M"){
+                acc+=900;
+                i++;
+            } else {
+                accumulator += romanHash[string[i]]
+            }
+            return accumulator;
+        } 
+       
+    //} else {
+        //console.log("I'm sorry, there are too many characters!  Please try again with less characters. The only characters allowed are capital 'I', 'V', 'X', 'L', 'C', 'D', and 'M'.")
+   // }
+    //console.log(accumulator)
+    
+}
+
+function toRomanSubtraction(string, regexArr, intArr) {
+   //forEach(regex, index, array2=>string.replace(regexArray,intArray))
+   regexArr.forEach((regex, index, array)=>console.log(string.replace(regex, intArray[index])))
+    //merge all those strings into one
+   //return string
+}
+
+console.log(toRoman("IX"))
+//toRomanSubtraction("IVIX",regexArray,intArray)
+
+//console.log("MCMXCIV".replaceAll(regexAll, 'T'))
+
+
+//alternatively, working way through the string one letter at a time  
+//if V follows I, IV, return 4
+//if I follows X, IX, return 9
+//if l follows x, XL, return 40
+// if c follows x, XC, return 90
+// if d follows c, CD, return 400
+// if m follows c, return 900 CM . 
+//subtract from the prev letter
+
+//otherwise, add 
+
