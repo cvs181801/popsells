@@ -269,7 +269,7 @@ for (let i=0; i < board.length; i++) {
 
     //1 check each row. if array only holds integers 1-9without numeric repetition return true
     if(board[i].join('').match(regex1) && !containsDuplicates(board[i])) {
-      //  console.log(i, 'horizontal row validated, true!') 
+      //console.log(i, 'horizontal row validated, true!') 
     } 
     else {
        // console.log(i, 'horizontal row is not valid, false')
@@ -396,7 +396,7 @@ const hobbyArray= [
           }
           obj[reducedArr[i]] = acc; 
       } 
-      //console.log(obj)
+      //console.log('hobby obj', obj)
       return obj;
   }
   
@@ -408,8 +408,7 @@ const hobbyArray= [
   
   
   //console.log(hobbyDecider(hobbyArray2))
-
-  ////
+////
   
 //ROMAN TO INTEGER
 //Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
@@ -454,7 +453,7 @@ const hobbyArray= [
 // Constraints:
 
 // 1 <= s.length <= 15
-// s contains only the characters ('I', 'V', 'X', 'L', 'C', 'D', 'M').
+// s contains only the characters ('I', 'V', 'X', 'L', 'C', 'D', 'M'). 
 // It is guaranteed that s is a valid roman numeral in the range [1, 3999].
 
 //take in a string
@@ -469,7 +468,6 @@ const hobbyArray= [
 // X can be placed before L (50) and C (100) to make 40 and 90. 
 // C can be placed before D (500) and M (1000) to make 400 and 900.
 
-let accumulator = 0;
 
 const regexI = /I/g;
 const regexV = /V/g;
@@ -485,6 +483,7 @@ const regex90 = /XC/g;
 const regex400 = /CD/g;
 const regex900 = /CM/g;
 let intArray = [];
+let accumulator = 0;
 
 function toRoman(string, array) {
     if (0 <= string.length <= 15 && string.includes('I' || 'V' || 'X' || 'L' || 'C'|| 'D'|| 'M')) {
@@ -557,10 +556,12 @@ function toRoman900(string, array) {
             array.push(900)
         }
     } 
+
+    //look?
    toRoman1(num900, array)
 }
 
-function toRoman1(string, array) {
+function toRoman1(string, array) { 
     const num1 =  string.replace(regexI,1);
     const arr = [...string.matchAll(regexI)];
     if(arr.length > 0){
@@ -641,4 +642,77 @@ function toRoman1000(string, array) {
     return finalValue
 }
 
-toRoman("MCMXCIV", intArray)
+//toRoman("MMMCMLXXXVIII", intArray)
+
+//////
+
+///letter combinations of a phone number
+
+// Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.
+
+// A mapping of digits to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
+// Example 1:
+
+// Input: digits = "23"
+// Output: ["ad","ae","af","bd","be","bf","cd","ce","cf"]
+// Example 2:
+
+// Input: digits = ""
+// Output: []
+// Example 3:
+
+// Input: digits = "2"
+// Output: ["a","b","c"]
+ 
+//Input: "56"
+//Output: ['jm', 'jn', 'jo', 'km', 'kn', 'ko', 'lm','ln','lo']
+
+// Constraints:
+
+// 0 <= digits.length <= 4
+// digits[i] is a digit in the range ['2', '9'].
+
+//1. take in string containing only numbers 2-9
+//2. parse numbers into integers
+//3. for each integer, loop through it's array of letters
+//4. for each  letter loop in first number's array, loop through the other number's letter array
+//5. view all possible letter combos (not in order)
+
+const regex = /[2-9]/g;
+
+const num2Arr= ['a','b','c'];
+const num3Arr=['d', 'e', 'f'];
+const num4Arr = ['g', 'h', 'i'];
+const num5Arr = ['j','k', 'l'];
+const num6Arr = ['m','n','o'];
+const num7Arr= ['p','q','r','s'];
+const num8Arr = ['t','u','v'];
+const num9Arr = ['w','x','y','z'];
+
+const allNumsArr = [[],[],num2Arr, num3Arr, num4Arr, num5Arr, num6Arr, num7Arr, num8Arr, num9Arr];
+
+function getCombos(string) {
+    if (0 <= string.length <= 4 && string.match(regex)){
+
+        console.log(string.match(regex)) //show me what i've got
+
+        const numArr = string.match(regex); //create an array
+
+        for (let i=0; i < numArr.length; i++) {
+            console.log(allNumsArr[numArr[i]])
+      
+            for(let j=0; j < allNumsArr[numArr[i]].length; j++) {
+                console.log(allNumsArr[numArr[i]])
+                //console.log(allNumsArr[numArr[i]][j])
+                console.log('whao')
+
+            }
+           // console.log(allNumsArr[numArr[0]])
+        }
+
+    } else {
+        console.log("plz only enter numbers 2-9.")
+    }
+}
+
+getCombos("56")
