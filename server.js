@@ -691,6 +691,8 @@ const num9Arr = ['w','x','y','z'];
 
 const allNumsArr = [[],[],num2Arr, num3Arr, num4Arr, num5Arr, num6Arr, num7Arr, num8Arr, num9Arr];
 
+let finalArr= []
+
 function getCombos(string) {
     if (0 <= string.length <= 4 && string.match(regex)){
 
@@ -698,21 +700,25 @@ function getCombos(string) {
 
         const numArr = string.match(regex); //create an array
 
-        for (let i=0; i < numArr.length; i++) {
-            console.log(allNumsArr[numArr[i]])
+        //can we destructure these out of the allnumsarra above instead?
+        //const [firstArr] = allNumsArr[numArr[0]];
+       // const [secondArr] = allNumsArr[numArr[1]];
+        const firstArr = allNumsArr[numArr[0]]
+        const secondArr = allNumsArr[numArr[1]]
+        //console.log('firstArr', firstArr)
+
+        for (let i=0; i < firstArr.length; i++) {
       
-            for(let j=0; j < allNumsArr[numArr[i]].length; j++) {
-                console.log(allNumsArr[numArr[i]])
-                //console.log(allNumsArr[numArr[i]][j])
-                console.log('whao')
+           for(let j=0; j < secondArr.length; j++) {
+                finalArr.push(`${firstArr[i]} ${secondArr[j]}`)
 
             }
-           // console.log(allNumsArr[numArr[0]])
         }
+        return finalArr
 
     } else {
         console.log("plz only enter numbers 2-9.")
     }
 }
 
-getCombos("56")
+console.log(getCombos("56"))
