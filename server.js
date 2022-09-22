@@ -348,17 +348,8 @@ for (let i=0; i<newCubeArr.length; i++) {
 //up for each hobby. Write a function that accepts a nested array containing hobby name, item name, and item cost, 
 //and returns an object containing the total cost for each hobby. Here's some sample input and output.
 
-// Sample input:
-const hobbyArray= [
-    ["knitting", "needles", 10],
-    ["lock picking", "picks", 25],
-    ["knitting", "yarn", 30],
-    ["DJing", "two turntables", 500],
-    ["knitting", "sock pattern", 3],
-    ["DJing", "a microphone", 35]
-  ]
-  
-  const hobbyArray2 = [
+//Sample input:
+  const hobbyArray = [
       ["coding", "computer", 2056],
       ["silicone pouring", "silicone", 450],
       ["coding", "classes", 250],
@@ -367,12 +358,13 @@ const hobbyArray= [
       ["silicone pouring", "PPE", 27]
   ]
   
-  // Sample output:
-  // {
-  //   "knitting": 43,
-  //   "lock picking": 25,
-  //   "DJing": 535,
-  // }
+
+//   Sample output: 
+//   { 
+//     coding: 2306, 
+//     'silicone pouring': 477, 
+//     cooking: 125 
+//   }
   
   
   let newArr = [];
@@ -383,20 +375,20 @@ const hobbyArray= [
   function hobbyDecider(array) {
       const reducedArr = hobbyReducer(array);
       for(i=0; i <reducedArr.length; i++) {
-          //console.log(acc)
+          
           if(acc>0){
               obj[reducedArr[i]] = acc; 
           }
           acc = 0;
           for(j=0; j<array.length; j++){
-              //console.log(array[j], array[j].indexOf(reducedArr[i]));
+              
                if(array[j].indexOf(reducedArr[i]) >= 0) {          
                       acc += array[j][2]
                 }
           }
           obj[reducedArr[i]] = acc; 
       } 
-      //console.log('hobby obj', obj)
+      
       return obj;
   }
   
@@ -407,7 +399,8 @@ const hobbyArray= [
   }
   
   
-  //console.log(hobbyDecider(hobbyArray2))
+  //console.log(hobbyDecider(hobbyArray))
+
 ////
   
 //ROMAN TO INTEGER
@@ -448,7 +441,6 @@ const hobbyArray= [
 // Input: s = "MCMXCIV"
 // Output: 1994
 // Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
- 
 
 // Constraints:
 
@@ -456,193 +448,191 @@ const hobbyArray= [
 // s contains only the characters ('I', 'V', 'X', 'L', 'C', 'D', 'M'). 
 // It is guaranteed that s is a valid roman numeral in the range [1, 3999].
 
-//take in a string
-//parse out the pieces of that string that make up the building blocks of the roman.  for each regex, check the string again and replace accordingly.
-//translate to numbers/integers
-//math
-
-//The symbols V, L, D are never repeated in a Roman number. 
-//In the Roman numbering system, symbols cannot be repeated more than three times in a row.
-
-// I can be placed before V (5) and X (10) to make 4 and 9. 
-// X can be placed before L (50) and C (100) to make 40 and 90. 
-// C can be placed before D (500) and M (1000) to make 400 and 900.
+//1. Take in a string that meets the constraints.
+//2. Parse out the pieces of that string that make up the building blocks of the roman numeral. For each regex, check the string again and replace accordingly.
+//3. Translate to integers.
+//4. Math.
 
 
-const regexI = /I/g;
-const regexV = /V/g;
-const regexX = /X/g;
-const regexL = /L/g;
-const regexC = /C/g;
-const regexD = /D/g;
-const regexM = /M/g;
-const regex4 = /IV/g;
-const regex9 = /IX/g;
-const regex40 = /XL/g;
-const regex90 = /XC/g;
-const regex400 = /CD/g;
-const regex900 = /CM/g;
-let intArray = [];
+const regexObj = {
+    regexI: /I/g,
+    regexV: /V/g,
+    regexX: /X/g,
+    regexL: /L/g,
+    regexC: /C/g,
+    regexD: /D/g,
+    regexM: /M/g,
+    regex4: /IV/g,
+    regex9: /IX/g,
+    regex40: /XL/g,
+    regex90: /XC/g,
+    regex400: /CD/g,
+    regex900: /CM/g
+}
+
 let accumulator = 0;
 
-function toRoman(string, array) {
+const toRomanParserMethods = {
+    toRoman1000: function(string, array, regex) {
+        const num1000 =  string.replace(regex,1000);
+        const arr = [...string.matchAll(regex)];
+        if(arr.length > 0){
+            for(let i=0; i< arr.length; i++){
+                array.push(1000)
+            }
+        } 
+        const finalValue = array.reduce((previousValue, currentValue) => previousValue + currentValue, accumulator)
+        return finalValue
+    },
+
+    toRoman500: function(string, array, regex) {
+        const num500 =  string.replace(regex,500);
+        const arr = [...string.matchAll(regex)];
+        if(arr.length > 0){
+            for(let i=0; i< arr.length; i++){
+                array.push(500)
+            }
+        } 
+       return this.toRoman1000(num500, array, regexObj.regexM)
+    },
+
+    toRoman100: function(string, array, regex) {
+        const num100 =  string.replace(regex,100);
+        const arr = [...string.matchAll(regex)];
+        if(arr.length > 0){
+            for(let i=0; i< arr.length; i++){
+                array.push(100)
+            }
+        } 
+       return this.toRoman500(num100, array, regexObj.regexD)
+    },
+
+    toRoman50: function(string, array, regex) {
+        const num50 =  string.replace(regex,50);
+        const arr = [...string.matchAll(regex)];
+        if(arr.length > 0){
+            for(let i=0; i< arr.length; i++){
+                array.push(50)
+            }
+        } 
+       return this.toRoman100(num50, array, regexObj.regexC)
+    },
+
+    toRoman10: function(string, array, regex) {
+        const num10 =  string.replace(regex,10);
+        const arr = [...string.matchAll(regex)];
+        if(arr.length > 0){
+            for(let i=0; i< arr.length; i++){
+                array.push(10)
+            }
+        } 
+       return this.toRoman50(num10, array, regexObj.regexL)
+    },
+
+    toRoman5: function(string, array, regex) {
+
+        const num5 =  string.replace(regex,5);
+        const arr = [...string.matchAll(regex)];
+        if(arr.length > 0){
+            for(let i=0; i< arr.length; i++){
+                array.push(5)
+            }
+        } 
+       return this.toRoman10(num5, array, regexObj.regexX)
+    },
+
+    toRoman1: function(string, array, regex) { 
+        const num1 =  string.replace(regex,1);
+        const arr = [...string.matchAll(regex)];
+        if(arr.length > 0){
+            for(let i=0; i< arr.length; i++){
+                array.push(1)
+            }
+        } 
+       return this.toRoman5(num1, array, regexObj.regexV)
+    },
+
+    toRoman900: function(string, array, regex) {
+        const num900 =  string.replace(regex,900);
+        const arr = [...string.matchAll(regex)];
+        if(arr.length > 0){
+            for(let i=0; i< arr.length; i++){
+                array.push(900)
+            }
+        } 
+    
+       return this.toRoman1(num900, array, regexObj.regexI)
+    },
+
+    toRoman400: function(string, array, regex) {
+        const num400 =  string.replace(regex,400);
+        const arr = [...string.matchAll(regex)];
+        if(arr.length > 0){
+            for(let i=0; i< arr.length; i++){
+                array.push(400)
+            }
+        } 
+       return this.toRoman900(num400, array, regexObj.regex900)
+    },
+
+    toRoman90: function(string, array, regex) {
+        const num90 =  string.replace(regex,90);
+        const arr = [...string.matchAll(regex)];
+        if(arr.length > 0){
+            for(let i=0; i< arr.length; i++){
+                array.push(90)
+            }
+        } 
+       return this.toRoman400(num90, array, regexObj.regex400)
+    },
+
+    toRoman40: function(string, array, regex) {
+        const num40 =  string.replace(regex,40);
+        const arr = [...string.matchAll(regex)];
+        if(arr.length > 0){
+            for(let i=0; i< arr.length; i++){
+                array.push(40)
+            }
+        } 
+       return this.toRoman90(num40, array, regexObj.regex90)
+    },
+
+    toRoman9: function(string, array, regex) {
+        const num9 =  string.replace(regex,9);
+        const arr = [...string.matchAll(regex)];
+        if(arr.length > 0){
+            for(let i=0; i< arr.length; i++){
+                array.push(9)
+            }
+        } 
+        return this.toRoman40(num9, array, regexObj.regex40)
+    },
+    
+    toRoman4: function(string, array, regex){  
+        const num4 =  string.replace(regex, 4);
+        const arr = [...string.matchAll(regex)];
+        if(arr.length > 0){
+             for(let i=0; i< arr.length; i++){
+                 array.push(4)
+         }
+        } 
+        return this.toRoman9(num4, array, regexObj.regex9)
+    }
+}
+
+
+function toRoman(string) {
     if (0 <= string.length <= 15 && string.includes('I' || 'V' || 'X' || 'L' || 'C'|| 'D'|| 'M')) {
-        toRoman4(string, array)
+        console.log('translating from Roman to integer!')
     } else {
-        console.log("I'm sorry, there are too many characters!  Please try again with less characters. The only characters allowed are capital 'I', 'V', 'X', 'L', 'C', 'D', and 'M'.")
+        console.log('please try again using a correct Roman numeral between 1 and 15 characters long, entering only capital letters!')
     }
+        const integerValue = toRomanParserMethods.toRoman4(string, [], regexObj.regex4)
+        return integerValue 
 }
 
-function toRoman4(string, array){ 
-   const num4 =  string.replace(regex4, 4);
-   const arr = [...string.matchAll(regex4)];
-   if(arr.length > 0){
-        for(let i=0; i< arr.length; i++){
-            array.push(4)
-    }
-   } 
-   toRoman9(num4, array)
-}
+//console.log('toroman', toRoman("MMMCMLXXXVIII"))
 
-function toRoman9(string, array) {
-    const num9 =  string.replace(regex9,9);
-    const arr = [...string.matchAll(regex9)];
-    if(arr.length > 0){
-        for(let i=0; i< arr.length; i++){
-            array.push(9)
-        }
-    } 
-   toRoman40(num9, array)
-}
-
-function toRoman40(string, array) {
-    const num40 =  string.replace(regex40,40);
-    const arr = [...string.matchAll(regex40)];
-    if(arr.length > 0){
-        for(let i=0; i< arr.length; i++){
-            array.push(40)
-        }
-    } 
-   toRoman90(num40, array)
-}
-
-function toRoman90(string, array) {
-    const num90 =  string.replace(regex90,90);
-    const arr = [...string.matchAll(regex90)];
-    if(arr.length > 0){
-        for(let i=0; i< arr.length; i++){
-            array.push(90)
-        }
-    } 
-   toRoman400(num90, array)
-}
-
-function toRoman400(string, array) {
-    const num400 =  string.replace(regex400,400);
-    const arr = [...string.matchAll(regex400)];
-    if(arr.length > 0){
-        for(let i=0; i< arr.length; i++){
-            array.push(400)
-        }
-    } 
-   toRoman900(num400, array)
-}
-
-function toRoman900(string, array) {
-    const num900 =  string.replace(regex900,900);
-    const arr = [...string.matchAll(regex900)];
-    if(arr.length > 0){
-        for(let i=0; i< arr.length; i++){
-            array.push(900)
-        }
-    } 
-
-    //look?
-   toRoman1(num900, array)
-}
-
-function toRoman1(string, array) { 
-    const num1 =  string.replace(regexI,1);
-    const arr = [...string.matchAll(regexI)];
-    if(arr.length > 0){
-        for(let i=0; i< arr.length; i++){
-            array.push(1)
-        }
-    } 
-   toRoman5(num1, array)
-}
-
-function toRoman5(string, array) {
-
-    const num5 =  string.replace(regexV,5);
-    const arr = [...string.matchAll(regexV)];
-    if(arr.length > 0){
-        for(let i=0; i< arr.length; i++){
-            array.push(5)
-        }
-    } 
-   toRoman10(num5, array)
-}
-
-function toRoman10(string, array) {
-    const num10 =  string.replace(regexX,10);
-    const arr = [...string.matchAll(regexX)];
-    if(arr.length > 0){
-        for(let i=0; i< arr.length; i++){
-            array.push(10)
-        }
-    } 
-   toRoman50(num10, array)
-}
-
-function toRoman50(string, array) {
-    const num50 =  string.replace(regexL,50);
-    const arr = [...string.matchAll(regexL)];
-    if(arr.length > 0){
-        for(let i=0; i< arr.length; i++){
-            array.push(50)
-        }
-    } 
-   toRoman100(num50, array)
-}
-
-function toRoman100(string, array) {
-    const num100 =  string.replace(regexC,100);
-    const arr = [...string.matchAll(regexC)];
-    if(arr.length > 0){
-        for(let i=0; i< arr.length; i++){
-            array.push(100)
-        }
-    } 
-   toRoman500(num100, array)
-}
-
-function toRoman500(string, array) {
-    const num500 =  string.replace(regexD,500);
-    const arr = [...string.matchAll(regexD)];
-    if(arr.length > 0){
-        for(let i=0; i< arr.length; i++){
-            array.push(500)
-        }
-    } 
-   toRoman1000(num500, array)
-}
-
-function toRoman1000(string, array) {
-    const num1000 =  string.replace(regexM,1000);
-    const arr = [...string.matchAll(regexM)];
-    if(arr.length > 0){
-        for(let i=0; i< arr.length; i++){
-            array.push(1000)
-        }
-    } 
-    const finalValue = intArray.reduce((previousValue, currentValue) => previousValue + currentValue, accumulator)
-    console.log('finalValue', finalValue)
-    console.log('final intArray', intArray)
-    return finalValue
-}
-
-//toRoman("MMMCMLXXXVIII", intArray)
 
 //////
 
@@ -680,40 +670,41 @@ function toRoman1000(string, array) {
 
 const regex = /[2-9]/g;
 
-const num2Arr= ['a','b','c'];
-const num3Arr=['d', 'e', 'f'];
+const num2Arr = ['a','b','c'];
+const num3Arr = ['d', 'e', 'f'];
 const num4Arr = ['g', 'h', 'i'];
 const num5Arr = ['j','k', 'l'];
 const num6Arr = ['m','n','o'];
-const num7Arr= ['p','q','r','s'];
+const num7Arr = ['p','q','r','s'];
 const num8Arr = ['t','u','v'];
 const num9Arr = ['w','x','y','z'];
 
-const allNumsArr = [[],[],num2Arr, num3Arr, num4Arr, num5Arr, num6Arr, num7Arr, num8Arr, num9Arr];
+const allNumsArr = [["","",""],["","",""],num2Arr, num3Arr, num4Arr, num5Arr, num6Arr, num7Arr, num8Arr, num9Arr];
 
-let finalArr= []
+let finalArr = [];
+let firstArr = [];
+let secondArr = [];
 
 function getCombos(string) {
     if (0 <= string.length <= 4 && string.match(regex)){
 
-        console.log(string.match(regex)) //show me what i've got
+        const numArr = string.match(regex); 
+        if (numArr.length === 1) {
+            firstArr = allNumsArr[numArr[0]]
+            for (let i=0; i < firstArr.length; i++) {
+                finalArr.push(`${firstArr[i]}`)
+            }
+        } else {
+            firstArr = allNumsArr[numArr[0]]
+            secondArr = allNumsArr[numArr[1]]
 
-        const numArr = string.match(regex); //create an array
-
-        //can we destructure these out of the allnumsarra above instead?
-        //const [firstArr] = allNumsArr[numArr[0]];
-       // const [secondArr] = allNumsArr[numArr[1]];
-        const firstArr = allNumsArr[numArr[0]]
-        const secondArr = allNumsArr[numArr[1]]
-        //console.log('firstArr', firstArr)
-
-        for (let i=0; i < firstArr.length; i++) {
-      
-           for(let j=0; j < secondArr.length; j++) {
-                finalArr.push(`${firstArr[i]} ${secondArr[j]}`)
-
+            for (let i=0; i < firstArr.length; i++) {
+                for(let j=0; j < secondArr.length; j++) {
+                    finalArr.push(`${firstArr[i]} ${secondArr[j]}`)
+                }
             }
         }
+
         return finalArr
 
     } else {
@@ -721,4 +712,4 @@ function getCombos(string) {
     }
 }
 
-console.log(getCombos("56"))
+//getCombos("89")
